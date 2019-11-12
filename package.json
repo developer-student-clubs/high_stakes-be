@@ -1,0 +1,28 @@
+{
+  "name": "high_stakes-be",
+  "version": "1.0.0",
+  "description": "Backend for DSC Web Dev Team's Project",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developer-student-clubs/high_stakes-be.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developer-student-clubs/high_stakes-be/issues"
+  },
+  "homepage": "https://github.com/developer-student-clubs/high_stakes-be#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "knex": "^0.20.1",
+    "mysql": "^2.17.1",
+    "sqlite3": "^4.1.0"
+  }
+}
