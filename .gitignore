@@ -106,3 +106,7 @@ dist
 
 # SQLite databases
 *.sqlite3
+
+# Docker Compose
+docker-compose.yml
+db_data
