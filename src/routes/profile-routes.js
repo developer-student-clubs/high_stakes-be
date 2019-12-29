@@ -2,13 +2,19 @@ const router = require('express').Router();
 const axios = require('axios');
 
 //Nodejs Backend Logging config
-const log4js = require('log4js')
-const logger = log4js.getLogger();
+const winston = require('winston');
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
 
 const authCheck = (req, res, next) => {
     if (!req.user) {
         //User not logged in
+        logger.info('Authentication check for profile..')
         res.redirect('/auth/github');
+        logger.info('Request End for authentication check..')
     }
     else {
         next();
@@ -16,21 +22,26 @@ const authCheck = (req, res, next) => {
 };
 
 router.get('/', authCheck, (req, res) => {
-    res.send('<h3><center>Profile Page</center></h3><b>Hello, ' + req.user.Github_username + '</b>')
+    logger.info('Request Send to /profile');
+    res.json(req.user.Github_username)
+    logger.info('Request End for /profile');
 })
 
 router.get('/repo', authCheck, (req, res) => {
     //User enters and then we get repo
+    logger.info('Request Send to profile/repo');
     var repoName = "projectworksem4/version0.1"
     axios.get("https://api.github.com/repos" + "/" + repoName + "/pulls")
         .then((repo) => {
-            res.send("<b>No of pull request is: " + repo.data[0].number + "</b>");
+            res.json(repo.data[0].number);
         })
+    logger.info('Request End for profile/repo');    
 })
 
 router.get('/repo/:lang', authCheck, (req, res) => {
     //Language from list
-    res.send(req.params.lang)
+    logger.info('Request Send to profile/repo/:lang');
+    res.json(req.params.lang)
     axios.get("https://api.github.com/search/repositories?per_page=4&q="+req.params.lang)
         .then((d) => {
             var i;
@@ -43,5 +54,6 @@ router.get('/repo/:lang', authCheck, (req, res) => {
             }
 
         })
+    logger.info('Request End for profile/repo/:lang');    
 })
 module.exports = router;

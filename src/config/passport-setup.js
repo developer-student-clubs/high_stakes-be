@@ -4,15 +4,19 @@ const conn = require('./db')
 const key = require('../key/data')
 
 //Nodejs Backend Logging config
-const log4js = require('log4js')
-const logger = log4js.getLogger();
+const winston = require('winston');
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
 
 passport.serializeUser((user, done) => {
     done(null, user.Github_username);
 })
 
 passport.deserializeUser((Github_username,done)=>{
-    // logger.info('User Deserialized:',Github_username)
+    logger.info('User Deserialized:')
     conn.query('SELECT * FROM users WHERE Github_username=?',Github_username,(err,response,meta)=>{
         done(null,response[0])
     })

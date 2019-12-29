@@ -3,8 +3,12 @@ const mariadb = require('mariadb/callback');
 const key = require('../key/data')
 
 //Nodejs Backend Logging config
-const log4js = require('log4js')
-const logger = log4js.getLogger();
+const winston = require('winston');
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
 
 // const options = {
 //     client: 'mysql',

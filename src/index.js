@@ -10,18 +10,23 @@ const key = require('./key/data');
 const cors = require('cors');
 
 //Nodejs Backend Logging config
-const log4js = require('log4js')
-const logger = log4js.getLogger();
-logger.level = 'info';
+const winston = require('winston');
+const logger = winston.createLogger({
+    transports: [
+        new winston.transports.Console()
+    ]
+});
 
 const app = express();
 //Added cors
-app.use(cors());
+//app.use(cors());
  
- app.use((req, res) => {
+ app.use((req, res,next) => {
 	res.header('Access-Control-Allow-Origin', '*');
-
+	res.header('Acess-Control-Allow-Credentials','true')
+	next();
   });
+
 app.use(cookieSession({
 	maxAge: 24*60*60*1000,
 	keys:[key[2].HASH]
@@ -34,12 +39,14 @@ app.use(passport.session());
 
 
 app.get('/', (req, res) => {
-	res.status(200).send('OK')
+	logger.info("Request Send to /");
+	res.status(200).json('OK');
+	logger.info("Request End for /");
 })
 
 app.use('/auth', authRoutes);
 app.use('/profile',profileRoutes);
 
 app.listen(3000, () => {
-	logger.info('Server accepting requestes in port 3000')
+	logger.info('Server accepting requestes in port 3000');
 })
