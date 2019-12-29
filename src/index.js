@@ -19,7 +19,7 @@ const logger = winston.createLogger({
 
 const app = express();
 //Added cors
-//app.use(cors());
+app.use(cors());
  
  app.use((req, res,next) => {
 	res.header('Access-Control-Allow-Origin', '*');
